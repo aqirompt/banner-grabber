@@ -20,9 +20,7 @@ from dataclasses import dataclass, field, asdict
 from typing import Optional, List, Dict
 from datetime import datetime
 
-# ──────────────────────────────────────────────
 # 日志配置
-# ──────────────────────────────────────────────
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -30,9 +28,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# ──────────────────────────────────────────────
 # 服务指纹库（主动探测载荷）
-# ──────────────────────────────────────────────
 SERVICE_PROBES: Dict[int, bytes] = {
     21:  None,           # FTP  — 服务端主动推送
     22:  None,           # SSH  — 服务端主动推送
@@ -44,9 +40,7 @@ SERVICE_PROBES: Dict[int, bytes] = {
     6379: b"PING\r\n",  # Redis
 }
 
-# ──────────────────────────────────────────────
 # 数据类
-# ──────────────────────────────────────────────
 @dataclass
 class BannerResult:
     host:       str
@@ -66,9 +60,7 @@ class BannerResult:
         return d
 
 
-# ──────────────────────────────────────────────
 # 核心函数：单端口 Banner 抓取
-# ──────────────────────────────────────────────
 def grab_banner(
     host: str,
     port: int,
@@ -132,9 +124,7 @@ def grab_banner(
         sock.close()
 
 
-# ──────────────────────────────────────────────
 # 批量并发扫描器
-# ──────────────────────────────────────────────
 def scan_host(
     host: str,
     ports: List[int],
@@ -156,9 +146,7 @@ def scan_host(
     return [results[p] for p in ports if p in results]
 
 
-# ──────────────────────────────────────────────
 # CLI 入口
-
 def main():
     parser = argparse.ArgumentParser(
         description="Banner Grabber — 主动式服务指纹识别工具"
